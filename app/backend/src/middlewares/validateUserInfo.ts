@@ -4,7 +4,7 @@ import { TUser } from '../interfaces/ILogin';
 const validateUserInfo = (req: Request, res: Response, next: NextFunction) => {
   const user:TUser = req.body;
   if (!user.email || !user.password) {
-    return res.status(400).json({ message: 'email and password are required' });
+    return res.status(400).json({ message: 'All fields must be filled' });
   }
   return next();
 };

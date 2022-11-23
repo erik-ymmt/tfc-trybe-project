@@ -4,6 +4,6 @@ import loginRouter from './loginRouter';
 const router = express.Router();
 
 router.use('/login', loginRouter);
-router.get('/test', (_req, res) => res.json({ test: 'ok!' }));
+// router.use('/teams', teamsRouter);
 
 export default router;
