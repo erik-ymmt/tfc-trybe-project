@@ -9,4 +9,13 @@ export default class MatchesModel implements IMatchesModel {
     console.log(this.esLintFooler);
     return result;
   }
+
+  async findAllFiltered(bool: boolean) {
+    const result = await Match.findAll({
+      where: { inProgress: bool },
+      include: { all: true },
+    });
+    console.log(this.esLintFooler);
+    return result;
+  }
 }

@@ -11,4 +11,9 @@ export default class MatchesService {
     const result = await this._model.findAll();
     return result;
   }
+
+  async findAllFiltered(bool: boolean) {
+    const result = await this._model.findAllFiltered(bool);
+    return result;
+  }
 }
