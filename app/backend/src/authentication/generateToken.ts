@@ -3,7 +3,7 @@ import { TUser } from '../interfaces/ILogin';
 
 const secret = process.env.JWT_SECRET;
 
-const generateToken = (user: TUser, role: string) => {
+const create = (user: TUser, role: string) => {
   const jwtConfig = {
     algorithm: 'HS256',
   };
@@ -19,4 +19,4 @@ const generateToken = (user: TUser, role: string) => {
   return token;
 };
 
-export default generateToken;
+export default { create };

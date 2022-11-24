@@ -1,6 +1,6 @@
 import User from '../database/models/User';
 
-const getRegisteredEmails = async () => {
+const findAll = async () => {
   const result = await User.findAll({
     attributes: ['email', 'password', 'role'],
   });
@@ -9,4 +9,4 @@ const getRegisteredEmails = async () => {
   return { emails };
 };
 
-export default getRegisteredEmails;
+export default { findAll };

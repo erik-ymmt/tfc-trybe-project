@@ -12,8 +12,8 @@ const tokenVerificator = async (req: Request, res: Response, next: NextFunction)
   }
 
   try {
-    const decoded = jwt.verify(token, secret as string) as jwt.JwtPayload;
-    const { emails } = await getRegisteredEmails();
+    const decoded = await jwt.verify(token, secret as string) as jwt.JwtPayload;
+    const { emails } = await getRegisteredEmails.findAll();
 
     req.body.role = decoded.role;
 
