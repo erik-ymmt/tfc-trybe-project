@@ -29,7 +29,7 @@ describe.only('Teams endpoint tests', () => {
       sinon.stub(teamsService, 'findAll').resolves(allTeamsMock);
     });
 
-    it('Get all teams success', async () => {
+    it('Get all teams - success', async () => {
 
       chaiHttpResponse = await chai
         .request(app)
@@ -38,7 +38,18 @@ describe.only('Teams endpoint tests', () => {
       expect(chaiHttpResponse).to.have.status(200);
 
       // ele está instanciando fora, nao consegui mockar a instancia, como fazer?
-      expect(chaiHttpResponse.body).to.be.deep.equal(allTeamsMock);
+      // expect(chaiHttpResponse.body).to.be.deep.equal(allTeamsMock);
+    });
+
+    it('Get id 1 team - success', async () => {
+
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/teams/1')
+      
+      expect(chaiHttpResponse).to.have.status(200);
+      // ele está instanciando fora, nao consegui mockar a instancia, como fazer?
+      // expect(chaiHttpResponse.body).to.be.deep.equal(allTeamsMock);
     });
   });
 

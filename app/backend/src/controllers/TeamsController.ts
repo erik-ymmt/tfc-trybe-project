@@ -12,4 +12,10 @@ export default class TeamsController {
     const result = await this._service.findAll();
     res.status(200).json(result);
   }
+
+  async findOne(req: Request, res: Response) {
+    const { id } = req.params;
+    const result = await this._service.findOne(id);
+    res.status(200).json(result);
+  }
 }

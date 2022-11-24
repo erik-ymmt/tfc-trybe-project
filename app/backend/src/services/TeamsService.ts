@@ -11,4 +11,9 @@ export default class TeamsService {
     const result = await this._model.findAll();
     return result;
   }
+
+  async findOne(id: string) {
+    const result = await this._model.findOne(id);
+    return result;
+  }
 }
