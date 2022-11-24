@@ -1,9 +1,10 @@
 import * as express from 'express';
 import loginRouter from './loginRouter';
+import teamsRouter from './teamsRouter';
 
 const router = express.Router();
 
 router.use('/login', loginRouter);
-// router.use('/teams', teamsRouter);
+router.use('/teams', teamsRouter);
 
 export default router;

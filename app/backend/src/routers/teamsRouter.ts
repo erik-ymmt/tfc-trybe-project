@@ -1,9 +1,14 @@
-// import * as express from 'express';
-// import validateUserInfo from '../middlewares/validateUserInfo';
-// import TeamsController from '../controllers/TeamsController';
+import * as express from 'express';
+import TeamsModel from '../models/TeamsModel';
+import TeamsService from '../services/TeamsService';
+import TeamsController from '../controllers/TeamsController';
 
-// const router = express.Router();
+const router = express.Router();
 
-// router.post('/', validateUserInfo, (req, res) => TeamsController.login(req, res));
+const teamsModel = new TeamsModel();
+const teamsService = new TeamsService(teamsModel);
+const teamsController = new TeamsController(teamsService);
 
-// export default router;
+router.get('/', (req, res) => teamsController.findAll(req, res));
+
+export default router;
