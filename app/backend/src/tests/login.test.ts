@@ -62,15 +62,30 @@ describe('Login Controller tests', () => {
         'message': 'All fields must be filled'
       });
     });
+
+    it('Login error', async () => {
+      sinon.stub(validateLogin, 'validate').throws;
+      const user = {
+        'email': 'user@user.com',
+        'password': 'secret_user'
+      };
+
+      chaiHttpResponse = await chai
+        .request(app)
+        .post('/login')
+        .send(user)
+
+      expect(chaiHttpResponse).to.have.status(500);
+    });
   });
 
   describe('Token tests', () => {
     before(async () => {
       sinon.stub(getRegisteredEmails, 'findAll').resolves({emails: ['admin@admin.com']});
-      sinon.stub(jwt, 'verify').resolves({email:'admin@admin.com' ,role: 'admin'});
     });
 
-    it('Token authentication', async () => {
+    it('Token authentication success', async () => {
+      sinon.stub(jwt, 'verify').resolves({email:'admin@admin.com' ,role: 'admin'});
       chaiHttpResponse = await chai
         .request(app)
         .get('/login/validate')
@@ -79,6 +94,38 @@ describe('Login Controller tests', () => {
 
         expect(chaiHttpResponse.body).to.be.deep.equal({ 'role': 'admin' });
         expect(chaiHttpResponse).to.have.status(200);
+    });
+
+    it('Token authentication fail', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/login/validate')
+        .set('Authorization', '')
+        .send({role: 'admin'})
+
+        expect(chaiHttpResponse).to.have.status(401);
+    });
+
+    it('Token authentication invalid', async () => {
+      sinon.stub(jwt, 'verify').resolves({email:'notadmin@admin.com', role: 'admin'});
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/login/validate')
+        .set('Authorization', token)
+        .send({role: 'admin'})
+
+        expect(chaiHttpResponse).to.have.status(401);
+    });
+
+    it('Token authentication error', async () => {
+      sinon.stub(jwt, 'verify').throws;
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/login/validate')
+        .set('Authorization', token)
+        .send({role: 'admin'})
+
+        expect(chaiHttpResponse).to.have.status(500);
     });
   });
 });
