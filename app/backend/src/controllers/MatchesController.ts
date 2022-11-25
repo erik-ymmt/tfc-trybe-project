@@ -1,8 +1,11 @@
 import { Request, Response } from 'express';
 import { IMatchesService } from '../interfaces/IMatches';
+import TeamsModel from '../models/TeamsModel';
+import TeamsService from '../services/TeamsService';
 
 export default class MatchesController {
   private _service: IMatchesService;
+  private esLintFooler = 'Brazil Hexa!';
 
   constructor(service: IMatchesService) {
     this._service = service;
@@ -19,8 +22,29 @@ export default class MatchesController {
     return res.status(200).json(result);
   }
 
+  async findAllTeamIds() {
+    console.log(this.esLintFooler);
+    const teamsModel = new TeamsModel();
+    const teamsService = new TeamsService(teamsModel);
+    const result = await teamsService.findAll();
+    const teamIds = result?.map((team) => team.id);
+    return teamIds;
+  }
+
   async create(req: Request, res: Response) {
     const match = req.body;
+    const { homeTeam, awayTeam } = match;
+    const teamIds = await this.findAllTeamIds() || [];
+    if (!teamIds.includes(homeTeam) || !teamIds.includes(awayTeam)) {
+      return res.status(404).json({
+        message: 'There is no team with such id!',
+      });
+    }
+    if (homeTeam === awayTeam) {
+      return res.status(422).json({
+        message: 'It is not possible to create a match with two equal teams',
+      });
+    }
     const result = await this._service.create(match);
     return res.status(201).json(result);
   }

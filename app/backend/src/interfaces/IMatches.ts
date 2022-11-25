@@ -1,3 +1,5 @@
+import Match from '../database/models/Match';
+
 type TResult = {
   id: number;
   homeTeamGoals: number;
@@ -10,7 +12,7 @@ type TMatch = TResult & {
 };
 
 interface IMatchesService {
-  findAll(): Promise<object[] | null>;
+  findAll(): Promise<Match[] | null>;
   findAllFiltered(bool: boolean): Promise<object[] | null>;
   create(match: TMatch): Promise<object | null>;
   finish(id: string): Promise<number>;
@@ -18,7 +20,7 @@ interface IMatchesService {
 }
 
 interface IMatchesModel {
-  findAll(): Promise<object[] | null>;
+  findAll(): Promise<Match[] | null>;
   findAllFiltered(bool: boolean): Promise<object[] | null>;
   create(match: TMatch): Promise<object | null>;
   finish(id: string): Promise<number>;

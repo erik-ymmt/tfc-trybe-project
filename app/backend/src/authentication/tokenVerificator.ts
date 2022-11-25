@@ -21,7 +21,7 @@ const tokenVerificator = async (req: Request, res: Response, next: NextFunction)
       return res.status(401).json({ message: 'Invalid token' });
     }
   } catch (error) {
-    return res.status(500).json({ message: error });
+    return res.status(401).json({ message: 'Token must be a valid token' });
   }
 
   next();
