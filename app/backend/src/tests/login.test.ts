@@ -85,7 +85,7 @@ describe('Login Controller tests', () => {
     });
 
     it('Token authentication success', async () => {
-      sinon.stub(jwt, 'verify').resolves({email:'admin@admin.com' ,role: 'admin'});
+      sinon.stub(jwt, 'verify').resolves({email:'admin@admin.com', role: 'admin'});
       chaiHttpResponse = await chai
         .request(app)
         .get('/login/validate')
@@ -125,7 +125,7 @@ describe('Login Controller tests', () => {
         .set('Authorization', token)
         .send({role: 'admin'})
 
-        expect(chaiHttpResponse).to.have.status(500);
+        expect(chaiHttpResponse).to.have.status(401);
     });
   });
 });

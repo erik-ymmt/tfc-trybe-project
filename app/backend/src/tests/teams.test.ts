@@ -5,10 +5,10 @@ import chaiHttp = require('chai-http');
 import { Response } from 'superagent';
 
 import App from '../app';
-import { allTeamsMock } from './mocks/teamsMock';
-import TeamsModel from '../models/TeamsModel';
-import TeamsService from '../services/TeamsService';
-import Team from '../database/models/Team';
+// import { allTeamsMock } from './mocks/teamsMock';
+// import TeamsModel from '../models/TeamsModel';
+// import TeamsService from '../services/TeamsService';
+// import Team from '../database/models/Team';
 
 chai.use(chaiHttp);
 
@@ -23,10 +23,10 @@ describe('Teams endpoint tests', () => {
 
   describe('Get All Teams tests', () => {
     beforeEach(async () => {
-      const teamsModel = new TeamsModel();
-      const teamsService = new TeamsService(teamsModel);
-      sinon.stub(teamsModel, 'findAll').resolves(allTeamsMock as Team[]);
-      sinon.stub(teamsService, 'findAll').resolves(allTeamsMock);
+      // const teamsModel = new TeamsModel();
+      // const teamsService = new TeamsService(teamsModel);
+      // sinon.stub(teamsModel, 'findAll').resolves(allTeamsMock as Team[]);
+      // sinon.stub(teamsService, 'findAll').resolves(allTeamsMock);
     });
 
     it('Get all teams - success', async () => {

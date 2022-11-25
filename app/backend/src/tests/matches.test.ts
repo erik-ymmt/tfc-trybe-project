@@ -5,6 +5,10 @@ import chaiHttp = require('chai-http');
 import { Response } from 'superagent';
 
 import App from '../app';
+import { token } from './mocks/userMocks';
+import getRegisteredEmails from '../helpers/getRegisteredEmails';
+import * as jwt from 'jsonwebtoken';
+
 // import MatchesModel from '../models/MatchesModel';
 // import MatchesService from '../services/MatchesService';
 // import Match from '../database/models/Match';
@@ -52,6 +56,32 @@ describe('Matches endpoint tests', () => {
       expect(chaiHttpResponse).to.have.status(200);
     });
   });
+
+  describe('Create Match tests', () => {
+    let chaiHttpResponse: Response;
+  
+    it('Create Match - success', async () => {
+        sinon.stub(getRegisteredEmails, 'findAll').resolves({emails: ['admin@admin.com']});
+        sinon.stub(jwt, 'verify').resolves({email:'admin@admin.com', role: 'admin'});
+  
+        chaiHttpResponse = await chai
+          .request(app)
+          .post('/matches')
+          .set('Authorization', token)
+          .send({
+            "homeTeam": 12,
+            "awayTeam": 9,
+            "homeTeamGoals": 2,
+            "awayTeamGoals": 3,
+            role: 'admin'
+          })
+        
+        expect(chaiHttpResponse).to.have.status(201);
+  
+        // ele está instanciando fora, nao consegui mockar a instancia, como fazer?
+        // expect(chaiHttpResponse.body).to.be.deep.equal(allTeamsMock);
+      });
+    });
 
   // describe('tests', () => {
   // });
