@@ -1,6 +1,6 @@
-import { IMatchesModel, TMatch } from '../interfaces/IMatches';
+import { IMatchesModel, IMatchesService, TMatch, TResult } from '../interfaces/IMatches';
 
-export default class MatchesService {
+export default class MatchesService implements IMatchesService {
   private _model: IMatchesModel;
 
   constructor(model: IMatchesModel) {
@@ -22,7 +22,12 @@ export default class MatchesService {
     return result;
   }
 
-  async update(match: TMatch) {
+  async finish(id: string) {
+    const result = await this._model.finish(id);
+    return result;
+  }
+
+  async update(match: TResult) {
     const result = await this._model.update(match);
     return result;
   }

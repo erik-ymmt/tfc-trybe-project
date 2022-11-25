@@ -30,21 +30,23 @@ export default class MatchesModel implements IMatchesModel {
       });
       return result;
     }
-    throw new Error('Failed to update match');
+    throw new Error('Failed to create match');
+  }
+
+  async finish(id: string) {
+    const [affectedCount] = await Match.update({ inProgress: 0 }, {
+      where: { id },
+    });
+    console.log(this.esLintFooler);
+    return affectedCount;
   }
 
   async update(match: TMatch) {
-    const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = match;
-    const affectedRows = await Match.update({ inProgress: 0, homeTeamGoals, awayTeamGoals }, {
-      where: { homeTeam, awayTeam },
+    const { homeTeamGoals, awayTeamGoals } = match;
+    const [affectedCount] = await Match.update({ homeTeamGoals, awayTeamGoals }, {
+      where: { id: match.id },
     });
     console.log(this.esLintFooler);
-    if (affectedRows) {
-      const result = await Match.findOne({
-        where: { homeTeam, awayTeam },
-      });
-      return result;
-    }
-    throw new Error('Failed to update match');
+    return affectedCount;
   }
 }

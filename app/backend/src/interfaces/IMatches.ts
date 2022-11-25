@@ -1,22 +1,28 @@
+type TResult = {
+  id: number;
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+};
+
+type TMatch = TResult & {
+  homeTeam: number;
+  awayTeam: number;
+};
+
 interface IMatchesService {
   findAll(): Promise<object[] | null>;
   findAllFiltered(bool: boolean): Promise<object[] | null>;
   create(match: TMatch): Promise<object | null>;
-  update(match: TMatch): Promise<object | null>;
+  finish(id: string): Promise<number>;
+  update(match: TResult): Promise<number>;
 }
-
-type TMatch = {
-  homeTeam: number;
-  awayTeam: number;
-  homeTeamGoals: number;
-  awayTeamGoals: number;
-};
 
 interface IMatchesModel {
   findAll(): Promise<object[] | null>;
   findAllFiltered(bool: boolean): Promise<object[] | null>;
   create(match: TMatch): Promise<object | null>;
-  update(match: TMatch): Promise<object | null>;
+  finish(id: string): Promise<number>;
+  update(match: TResult): Promise<number>;
 }
 
-export { IMatchesService, TMatch, IMatchesModel };
+export { TMatch, TResult, IMatchesService, IMatchesModel };
