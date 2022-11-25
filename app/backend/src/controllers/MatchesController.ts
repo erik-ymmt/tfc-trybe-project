@@ -18,4 +18,16 @@ export default class MatchesController {
     const result = await this._service.findAll();
     return res.status(200).json(result);
   }
+
+  async create(req: Request, res: Response) {
+    const match = req.body;
+    const result = await this._service.create(match);
+    return res.status(201).json(result);
+  }
+
+  async update(req: Request, res: Response) {
+    const match = req.body;
+    const result = await this._service.update(match);
+    return res.status(201).json(result);
+  }
 }

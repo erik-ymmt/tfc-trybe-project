@@ -1,4 +1,4 @@
-import { IMatchesModel } from '../interfaces/IMatches';
+import { IMatchesModel, TMatch } from '../interfaces/IMatches';
 
 export default class MatchesService {
   private _model: IMatchesModel;
@@ -14,6 +14,16 @@ export default class MatchesService {
 
   async findAllFiltered(bool: boolean) {
     const result = await this._model.findAllFiltered(bool);
+    return result;
+  }
+
+  async create(match: TMatch) {
+    const result = await this._model.create(match);
+    return result;
+  }
+
+  async update(match: TMatch) {
+    const result = await this._model.update(match);
     return result;
   }
 }
