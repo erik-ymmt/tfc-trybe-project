@@ -5,9 +5,6 @@ import chaiHttp = require('chai-http');
 import { Response } from 'superagent';
 
 import App from '../app';
-import { token } from './mocks/userMocks';
-import getRegisteredEmails from '../helpers/getRegisteredEmails';
-import * as jwt from 'jsonwebtoken';
 
 chai.use(chaiHttp);
 
