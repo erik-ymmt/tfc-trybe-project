@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import ILeaderboardService from '../interfaces/ILeaderboard';
+import { ILeaderboardService } from '../interfaces/ILeaderboard';
 
 export default class LeaderboardController {
   private _service: ILeaderboardService;
@@ -8,8 +8,8 @@ export default class LeaderboardController {
     this._service = service;
   }
 
-  async findAllMatches(req: Request, res: Response) {
-    const result = await this._service.findAllMatches();
+  async createTable(req: Request, res: Response) {
+    const result = await this._service.createTable();
     return res.status(200).json(result);
   }
 }

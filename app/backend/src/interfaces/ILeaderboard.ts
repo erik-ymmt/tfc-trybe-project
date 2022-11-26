@@ -1,7 +1,40 @@
-import Match from '../database/models/Match';
+// import Match from '../database/models/Match';
 
 interface ILeaderboardService {
-  findAllMatches(): Promise<Match[] | null>;
+  matches: TCompleteMatch[];
+  table: TTeamTable[];
+  createTable(): Promise<TTeamTable[]>;
+  findAllFinishedMatches(): void;
 }
 
-export default ILeaderboardService;
+type TTeamTable = {
+  name: string;
+  totalPoints: number;
+  totalGames: number;
+  totalVictories: number;
+  totalDraws: number;
+  totalLosses: number;
+  goalsFavor: number;
+  goalsOwn: number;
+  goalsBalance: number;
+  efficiency: number;
+};
+
+type TCompleteMatch = {
+  id: number;
+  homeTeam: number;
+  homeTeamGoals: number;
+  awayTeam: number;
+  awayTeamGoals: number;
+  inProgress: boolean;
+  teamHome: {
+    id: number;
+    teamName: string;
+  };
+  teamAway: {
+    id: number;
+    teamName: string;
+  };
+};
+
+export { ILeaderboardService, TTeamTable, TCompleteMatch };
