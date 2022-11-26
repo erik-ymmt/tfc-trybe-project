@@ -6,7 +6,7 @@ export default class LeaderboardService implements ILeaderboardService {
   matches: TCompleteMatch[] = [];
   table: TTeamTable[] = [];
 
-  async createTable() {
+  async createTable(filter: string) {
     const teamsModel = new TeamsModel();
     const allTeams = await teamsModel.findAll();
     this.table = allTeams.map((team) => ({
@@ -22,7 +22,7 @@ export default class LeaderboardService implements ILeaderboardService {
       efficiency: 0,
     }));
     await this.findAllFinishedMatches();
-    await this.runMatches();
+    await this.runMatches(filter);
     this.sortTable();
     return this.table;
   }
@@ -35,18 +35,22 @@ export default class LeaderboardService implements ILeaderboardService {
     this.matches = finishedMatches;
   }
 
-  async runMatches() {
+  async runMatches(filter: string) {
     this.matches.forEach((match) => {
-      const homeTeamIndex: number | undefined = this.table
-        .findIndex((team) => team.name === match.teamHome.teamName);
-      // const awayTeamIndex: number | undefined = this.table
-      //   .findIndex((team) => team.name === match.teamAway.teamName);
-      if (homeTeamIndex > -1) {
-        this.homeTeamUpdate(match, homeTeamIndex);
+      if (filter !== 'away') {
+        const homeTeamIndex: number | undefined = this.table
+          .findIndex((team) => team.name === match.teamHome.teamName);
+        if (homeTeamIndex > -1) {
+          this.homeTeamUpdate(match, homeTeamIndex);
+        }
       }
-      // if (awayTeamIndex) {
-      //   this.awayTeamUpdate(match, awayTeamIndex);
-      // }
+      if (filter !== 'home') {
+        const awayTeamIndex: number | undefined = this.table
+          .findIndex((team) => team.name === match.teamAway.teamName);
+        if (awayTeamIndex > -1) {
+          this.awayTeamUpdate(match, awayTeamIndex);
+        }
+      }
     });
   }
 
@@ -69,16 +73,24 @@ export default class LeaderboardService implements ILeaderboardService {
     homeTeam.efficiency = Math.round(efficiency * 100) / 100;
   }
 
-  // awayTeamUpdate(match: TCompleteMatch, awayTeam: number) {
-  //   const awayTeam = this.table[awayTeamIndex];
-  //   homeTeam.totalGames += 1;
-  //   homeTeam.goalsFavor += match.homeTeamGoals;
-  //   homeTeam.goalsOwn += match.awayTeamGoals;
-  //   homeTeam.goalsBalance = homeTeam.goalsFavor - homeTeam.goalsOwn;
-  //   match.homeTeamGoals > match.awayTeamGoals
-  //     ? homeTeam.totalVictories += 1
-  //     : homeTeam.totalLosses += 1
-  // }
+  awayTeamUpdate(match: TCompleteMatch, awayTeamIndex: number) {
+    const awayTeam = this.table[awayTeamIndex];
+    awayTeam.totalGames += 1;
+    awayTeam.goalsFavor += match.awayTeamGoals;
+    awayTeam.goalsOwn += match.homeTeamGoals;
+    awayTeam.goalsBalance = awayTeam.goalsFavor - awayTeam.goalsOwn;
+    if (match.awayTeamGoals > match.homeTeamGoals) {
+      awayTeam.totalVictories += 1;
+      awayTeam.totalPoints += 3;
+    } else if (match.awayTeamGoals === match.homeTeamGoals) {
+      awayTeam.totalDraws += 1;
+      awayTeam.totalPoints += 1;
+    } else {
+      awayTeam.totalLosses += 1;
+    }
+    const efficiency = (awayTeam.totalPoints / (awayTeam.totalGames * 3)) * 100;
+    awayTeam.efficiency = Math.round(efficiency * 100) / 100;
+  }
 
   sortTable() {
     const sortGoalsOwn = this.table.sort((a, b) => b.goalsOwn - a.goalsOwn);

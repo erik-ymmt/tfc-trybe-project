@@ -8,7 +8,7 @@ const leaderboardService = new LeaderboardService();
 const leaderboardController = new LeaderboardController(leaderboardService);
 
 router.get('/home', (req, res) => leaderboardController.createTable(req, res));
-// router.get('/away', tokenVerificator, (req, res) => leaderboardController.find(req, res));
-// router.get('/', tokenVerificator, (req, res) => leaderboardController.find(req, res));
+router.get('/away', (req, res) => leaderboardController.createTable(req, res));
+router.get('/', (req, res) => leaderboardController.createTable(req, res));
 
 export default router;

@@ -9,7 +9,8 @@ export default class LeaderboardController {
   }
 
   async createTable(req: Request, res: Response) {
-    const result = await this._service.createTable();
+    const filter = req.originalUrl.replace('/leaderboard/', '');
+    const result = await this._service.createTable(filter);
     return res.status(200).json(result);
   }
 }
