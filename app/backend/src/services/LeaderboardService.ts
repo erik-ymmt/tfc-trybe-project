@@ -5,10 +5,12 @@ import MatchesModel from '../models/MatchesModel';
 export default class LeaderboardService implements ILeaderboardService {
   matches: TCompleteMatch[] = [];
   table: TTeamTable[] = [];
+  filter = 'none';
 
   async createTable(filter: string): Promise<TTeamTable[]> {
     const teamsModel = new TeamsModel();
     const allTeams = await teamsModel.findAll();
+    await this.findAllFinishedMatches();
     this.table = allTeams.map((team) => ({
       name: team.teamName,
       totalPoints: 0,
@@ -21,10 +23,8 @@ export default class LeaderboardService implements ILeaderboardService {
       goalsBalance: 0,
       efficiency: 0,
     }));
-    await this.findAllFinishedMatches();
     await this.runMatches(filter);
-    this.sortTable();
-    return this.table;
+    return this.sortTable();
   }
 
   async findAllFinishedMatches() {
@@ -52,6 +52,7 @@ export default class LeaderboardService implements ILeaderboardService {
         }
       }
     });
+    this.filter = filter;
   }
 
   homeTeamUpdate(match: TCompleteMatch, homeTeamIndex: number) {
@@ -99,5 +100,6 @@ export default class LeaderboardService implements ILeaderboardService {
     const sortVictories = sortGoalsBalance.sort((a, b) => b.totalVictories - a.totalVictories);
     const sortPoints = sortVictories.sort((a, b) => b.totalPoints - a.totalPoints);
     this.table = sortPoints;
+    return this.table;
   }
 }
