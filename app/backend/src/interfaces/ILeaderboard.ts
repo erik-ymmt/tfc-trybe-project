@@ -3,8 +3,8 @@
 interface ILeaderboardService {
   matches: TCompleteMatch[];
   table: TTeamTable[];
-  createTable(fitler: string): Promise<TTeamTable[]>;
-  findAllFinishedMatches(): void;
+  createTable(filter: string): Promise<TTeamTable[]>;
+  findAllFinishedMatches(): Promise<void>;
 }
 
 type TTeamTable = {
