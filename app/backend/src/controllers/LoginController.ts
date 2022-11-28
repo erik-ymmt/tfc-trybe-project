@@ -19,11 +19,7 @@ export default class LoginController {
   }
 
   static async loginValidate(req: Request, res: Response) {
-    try {
-      const { role } = req.body;
-      return res.status(200).json({ role });
-    } catch (error) {
-      return res.status(500).json({ message: 'Internal error' });
-    }
+    const { role } = req.body;
+    return res.status(200).json({ role });
   }
 }

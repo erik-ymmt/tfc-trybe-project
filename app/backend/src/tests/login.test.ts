@@ -77,6 +77,21 @@ describe('Login Controller tests', () => {
 
       expect(chaiHttpResponse).to.have.status(500);
     });
+
+    it('Login unauthorized', async () => {
+      sinon.stub(validateLogin, 'validate').resolves('Incorrect email or password');
+      const user = {
+        'email': 'user@user.com',
+        'password': 'secret_user'
+      };
+
+      chaiHttpResponse = await chai
+        .request(app)
+        .post('/login')
+        .send(user)
+
+      expect(chaiHttpResponse).to.have.status(401);
+    });
   });
 
   describe('Token tests', () => {
