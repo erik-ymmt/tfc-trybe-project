@@ -2,7 +2,7 @@ import { ITeamsModel } from '../interfaces/ITeams';
 import Team from '../database/models/Team';
 
 export default class TeamsModel implements ITeamsModel {
-  private esLintFooler = 'Brazil Hexa!';
+  private esLintFooler = '>>';
 
   async findAll() {
     const result = await Team.findAll();

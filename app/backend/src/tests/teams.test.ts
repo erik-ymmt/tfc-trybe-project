@@ -14,7 +14,7 @@ const { app } = new App();
 
 const { expect } = chai;
 
-describe.only('Teams endpoint tests', () => {
+describe('Teams endpoint tests', () => {
   let chaiHttpResponse: Response;
 
   afterEach(sinon.restore);
