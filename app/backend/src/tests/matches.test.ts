@@ -9,13 +9,10 @@ import { token } from './mocks/userMocks';
 import getRegisteredEmails from '../helpers/getRegisteredEmails';
 import * as jwt from 'jsonwebtoken';
 
-// import MatchesModel from '../models/MatchesModel';
-// import MatchesService from '../services/MatchesService';
 import Match from '../database/models/Match';
 import { AllMatches, allMatchesMock, CreatedMatch, createdMatchMock } from './mocks/matchesMock';
 import Team from '../database/models/Team';
 import { allTeamsMock } from './mocks/teamsMock';
-// import { IMatchesModel } from '../interfaces/IMatches';
 
 chai.use(chaiHttp);
 
@@ -28,16 +25,11 @@ describe.only('Matches endpoint tests', () => {
 
   afterEach(sinon.restore);
 
-  beforeEach(async () => {
-    sinon.stub(Match, 'findAll').resolves(allMatchesMock as [[AllMatches], any]);
-    sinon.stub(Match, 'create').resolves([{affectedRows: 1}] as unknown as Match);
-    sinon.stub(Match, 'findOne').resolves(createdMatchMock as Match);
-    sinon.stub(Team, 'findAll').resolves(allTeamsMock as Team[]);
-    sinon.stub(getRegisteredEmails, 'findAll').resolves({emails: ['admin@admin.com']});
-    sinon.stub(jwt, 'verify').resolves({email:'admin@admin.com', role: 'admin'});
-  });
-
   describe('Get All Matches tests', () => {
+    beforeEach(async () => {
+      sinon.stub(Match, 'findAll').resolves(allMatchesMock as [[AllMatches], any]);
+    });
+
     it('Get all matches - success', async () => {
       chaiHttpResponse = await chai
         .request(app)
@@ -58,6 +50,14 @@ describe.only('Matches endpoint tests', () => {
   });
 
   describe('Create Match tests', () => {
+    beforeEach(async () => {
+      sinon.stub(Match, 'findAll').resolves(allMatchesMock as [[AllMatches], any]);
+      sinon.stub(Match, 'create').resolves([{affectedRows: 1}] as unknown as Match);
+      sinon.stub(Match, 'findOne').resolves(createdMatchMock as Match);
+      sinon.stub(Team, 'findAll').resolves(allTeamsMock as Team[]);
+      sinon.stub(getRegisteredEmails, 'findAll').resolves({emails: ['admin@admin.com']});
+      sinon.stub(jwt, 'verify').resolves({email:'admin@admin.com', role: 'admin'});
+    });
 
     it('Create Match - success', async () => {
         chaiHttpResponse = await chai
@@ -107,5 +107,42 @@ describe.only('Matches endpoint tests', () => {
       expect(chaiHttpResponse).to.have.status(422);
       expect(chaiHttpResponse.body).to.be.deep.equal({message: "It is not possible to create a match with two equal teams"});
     });
+  });
+
+  describe('Finish Match tests', () => {
+    beforeEach(async () => {
+      sinon.stub(getRegisteredEmails, 'findAll').resolves({emails: ['admin@admin.com']});
+      sinon.stub(jwt, 'verify').resolves({email:'admin@admin.com', role: 'admin'});
+      sinon.stub(Match, 'update').resolves([1]);
     });
+
+    it('Finish Match - success', async () => {
+        chaiHttpResponse = await chai
+          .request(app)
+          .patch('/matches/1/finish')
+          .set('Authorization', token)
+        
+        expect(chaiHttpResponse).to.have.status(200);
+        expect(chaiHttpResponse.body).to.be.deep.equal({ message: "Finished" });
+    });
+  });
+
+  describe('Update Match tests', () => {
+    beforeEach(async () => {
+      sinon.stub(getRegisteredEmails, 'findAll').resolves({emails: ['admin@admin.com']});
+      sinon.stub(jwt, 'verify').resolves({email:'admin@admin.com', role: 'admin'});
+      sinon.stub(Match, 'update').resolves([1]);
+    });
+
+    it('Update Match - success', async () => {
+        chaiHttpResponse = await chai
+          .request(app)
+          .patch('/matches/1')
+          .set('Authorization', token)
+        
+        expect(chaiHttpResponse).to.have.status(200);
+        expect(chaiHttpResponse.body).to.be.deep.equal({ message: "Ok" });
+    });
+  });
+
 });

@@ -50,12 +50,7 @@ export default class MatchesController {
   async finish(req: Request, res: Response) {
     const { id } = req.params;
     await this._service.finish(id);
-    try {
-      return res.status(200).json({ message: 'Finished' });
-    } catch (err) {
-      return res.status(500)
-        .json({ message: 'Error, something went wrong' });
-    }
+    return res.status(200).json({ message: 'Finished' });
   }
 
   async update(req: Request, res: Response) {
@@ -63,11 +58,6 @@ export default class MatchesController {
     const match = req.body;
     match.id = Number(id);
     await this._service.update(match);
-    try {
-      return res.status(200).json({ message: 'Ok' });
-    } catch (err) {
-      return res.status(500)
-        .json({ message: 'Error, something went wrong' });
-    }
+    return res.status(200).json({ message: 'Ok' });
   }
 }
