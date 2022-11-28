@@ -5,7 +5,6 @@ import TeamsService from '../services/TeamsService';
 
 export default class MatchesController {
   private _service: IMatchesService;
-  private esLintFooler = 'Brazil Hexa!';
 
   constructor(service: IMatchesService) {
     this._service = service;
@@ -22,8 +21,7 @@ export default class MatchesController {
     return res.status(200).json(result);
   }
 
-  async findAllTeamIds() {
-    console.log(this.esLintFooler);
+  static async findAllTeamIds() {
     const teamsModel = new TeamsModel();
     const teamsService = new TeamsService(teamsModel);
     const result = await teamsService.findAll();
@@ -34,7 +32,7 @@ export default class MatchesController {
   async create(req: Request, res: Response) {
     const match = req.body;
     const { homeTeam, awayTeam } = match;
-    const teamIds = await this.findAllTeamIds() || [];
+    const teamIds = await MatchesController.findAllTeamIds() || [];
     if (!teamIds.includes(homeTeam) || !teamIds.includes(awayTeam)) {
       return res.status(404).json({
         message: 'There is no team with such id!',

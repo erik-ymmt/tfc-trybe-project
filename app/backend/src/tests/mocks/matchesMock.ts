@@ -61,7 +61,7 @@ const allMatchesMock = [
   },
 ];
 
-const inProgressMathces = [
+const inProgressMatches = [
   {
     id: 41,
     homeTeam: 16,
@@ -96,7 +96,16 @@ const inProgressMathces = [
   },
 ];
 
-abstract class AllMatchesMock {
+const createdMatchMock = {
+  id: 40,
+  homeTeam: 1,
+  homeTeamGoals: 4,
+  awayTeam: 2,
+  awayTeamGoals: 1,
+  inProgress: false,
+};
+
+abstract class AllMatches {
   declare id: number;
   declare homeTeam: number;
   declare homeTeamGoals: number;
@@ -107,4 +116,13 @@ abstract class AllMatchesMock {
   declare teamAway: object;
 }
 
-export { allMatchesMock, inProgressMathces, AllMatchesMock };
+abstract class CreatedMatch {
+  declare id: number;
+  declare homeTeam: number;
+  declare homeTeamGoals: number;
+  declare awayTeam: number;
+  declare awayTeamGoals: number;
+  declare inProgress: boolean;
+}
+
+export { allMatchesMock, inProgressMatches, createdMatchMock, CreatedMatch, AllMatches };
