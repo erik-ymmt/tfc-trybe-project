@@ -13,4 +13,9 @@ const allTeamsMock = [
   },
 ]
 
-export { allTeamsMock }
+const teamMock =   {
+  "id": 1,
+  "teamName": "Avaí/Kindermann"
+}
+
+export { allTeamsMock, teamMock }
