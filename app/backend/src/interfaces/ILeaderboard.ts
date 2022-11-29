@@ -1,10 +1,12 @@
-// import Match from '../database/models/Match';
-
 interface ILeaderboardService {
   matches: TCompleteMatch[];
   table: TTeamTable[];
   createTable(filter: string): Promise<TTeamTable[]>;
   findAllFinishedMatches(): Promise<void>;
+  runMatches(filter: string): Promise<void>;
+  homeTeamUpdate(match: TCompleteMatch, homeTeamIndex: number): void;
+  awayTeamUpdate(match: TCompleteMatch, homeTeamIndex: number): void;
+  sortTable(): TTeamTable[];
 }
 
 type TTeamTable = {

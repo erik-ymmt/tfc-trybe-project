@@ -1,4 +1,3 @@
-import 'express-async-errors';
 import { NextFunction, Request, Response } from 'express';
 
 interface IError {

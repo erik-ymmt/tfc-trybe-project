@@ -7,7 +7,7 @@ export default class LeaderboardService implements ILeaderboardService {
   table: TTeamTable[] = [];
   filter = 'none';
 
-  async createTable(filter: string): Promise<TTeamTable[]> {
+  async createTable(filter: string) {
     const teamsModel = new TeamsModel();
     const allTeams = await teamsModel.findAll();
     await this.findAllFinishedMatches();
