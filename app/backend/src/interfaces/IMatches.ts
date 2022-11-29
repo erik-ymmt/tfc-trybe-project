@@ -19,12 +19,4 @@ interface IMatchesService {
   update(match: TResult): Promise<number>;
 }
 
-interface IMatchesModel {
-  findAll(): Promise<Match[] | null>;
-  findAllFiltered(bool: boolean): Promise<object[] | null>;
-  create(match: TMatch): Promise<object | null>;
-  finish(id: string): Promise<number>;
-  update(match: TResult): Promise<number>;
-}
-
-export { TMatch, TResult, IMatchesService, IMatchesModel };
+export { TMatch, TResult, IMatchesService };

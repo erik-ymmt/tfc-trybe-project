@@ -1,6 +1,6 @@
 import TeamsModel from '../models/TeamsModel';
 import { ILeaderboardService, TCompleteMatch, TTeamTable } from '../interfaces/ILeaderboard';
-import MatchesModel from '../models/MatchesModel';
+import MatchesService from './MatchesService';
 
 export default class LeaderboardService implements ILeaderboardService {
   matches: TCompleteMatch[] = [];
@@ -28,7 +28,7 @@ export default class LeaderboardService implements ILeaderboardService {
   }
 
   async findAllFinishedMatches() {
-    const matchesModel = new MatchesModel();
+    const matchesModel = new MatchesService();
     const result = await matchesModel.findAll();
     const allMatches = result.map((match) => match.dataValues);
     const finishedMatches = allMatches.filter((match) => match.inProgress === false);

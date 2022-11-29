@@ -1,13 +1,11 @@
 import * as express from 'express';
-import MatchesModel from '../models/MatchesModel';
 import MatchesService from '../services/MatchesService';
 import MatchesController from '../controllers/MatchesController';
 import tokenVerificator from '../authentication/tokenVerificator';
 
 const router = express.Router();
 
-const matchesModel = new MatchesModel();
-const matchesService = new MatchesService(matchesModel);
+const matchesService = new MatchesService();
 const matchesController = new MatchesController(matchesService);
 
 router.get('/', (req, res) => matchesController.findAll(req, res));
