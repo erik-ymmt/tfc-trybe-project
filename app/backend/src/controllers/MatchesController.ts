@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { IMatchesService } from '../interfaces/IMatches';
-import TeamsModel from '../models/TeamsModel';
 import TeamsService from '../services/TeamsService';
 
 export default class MatchesController {
@@ -22,8 +21,7 @@ export default class MatchesController {
   }
 
   static async findAllTeamIds() {
-    const teamsModel = new TeamsModel();
-    const teamsService = new TeamsService(teamsModel);
+    const teamsService = new TeamsService();
     const result = await teamsService.findAll();
     const teamIds = result?.map((team) => team.id);
     return teamIds;

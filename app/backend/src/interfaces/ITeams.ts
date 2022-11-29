@@ -5,9 +5,4 @@ interface ITeamsService {
   findOne(id: string): Promise<Team | null>;
 }
 
-interface ITeamsModel {
-  findAll(): Promise<Team[] | null>;
-  findOne(id: string): Promise<Team | null>;
-}
-
-export { ITeamsService, ITeamsModel };
+export default ITeamsService;

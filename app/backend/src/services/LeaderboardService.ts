@@ -1,4 +1,4 @@
-import TeamsModel from '../models/TeamsModel';
+import TeamsService from './TeamsService';
 import { ILeaderboardService, TCompleteMatch, TTeamTable } from '../interfaces/ILeaderboard';
 import MatchesService from './MatchesService';
 
@@ -8,8 +8,8 @@ export default class LeaderboardService implements ILeaderboardService {
   filter = 'none';
 
   async createTable(filter: string) {
-    const teamsModel = new TeamsModel();
-    const allTeams = await teamsModel.findAll();
+    const teamsService = new TeamsService();
+    const allTeams = await teamsService.findAll();
     await this.findAllFinishedMatches();
     this.table = allTeams.map((team) => ({
       name: team.teamName,

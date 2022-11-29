@@ -1,10 +1,10 @@
-import { ITeamsModel } from '../interfaces/ITeams';
+import Team from '../database/models/Team';
 
 export default class TeamsService {
-  private _model: ITeamsModel;
+  private _model;
 
-  constructor(model: ITeamsModel) {
-    this._model = model;
+  constructor() {
+    this._model = Team;
   }
 
   async findAll() {
@@ -13,7 +13,7 @@ export default class TeamsService {
   }
 
   async findOne(id: string) {
-    const result = await this._model.findOne(id);
+    const result = await this._model.findOne({ where: { id } });
     return result;
   }
 }
