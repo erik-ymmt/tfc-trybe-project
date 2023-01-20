@@ -22,7 +22,7 @@ Technologies applied by me on this project:
 - Chai;
 - MySQL;
 - Docker;
-- Railyway (database and backend) and Netlify (frontend) for deploy
+- Railway (database and backend) and Netlify (frontend) for deploy
 
 ## How to run the project in your machine (with docker):
 - Make sure you have docker installed with versions 1.29 or higher;
